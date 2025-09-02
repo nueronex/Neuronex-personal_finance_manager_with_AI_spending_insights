@@ -1,0 +1,1 @@
+# Neuronex-personal_finance_manager_with_AI_spending_insights
