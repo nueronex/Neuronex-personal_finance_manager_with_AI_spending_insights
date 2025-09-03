@@ -1,0 +1,80 @@
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, r2_score
+
+class SpendingPredictor:
+    def __init__(self):
+        self.model = LinearRegression()
+
+    def prepare_data(self, df)
+        Prepares the dataset for prediction.
+        df: DataFrame with columns ['date', 'amount']
+
+
+        df['date'] = pd.to_datetime(df['date'])
+
+
+        df['year'] = df['date'].dt.year
+        df['month'] = df['date'].dt.month
+        df['day'] = df['date'].dt.day
+
+        X = df[['year', 'month', 'day']]
+        y = df['amount']
+        return X, y
+
+    def train(self, df):
+        X, y = self.prepare_data(df)
+
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+        self.model.fit(X_train, y_train)
+
+
+        y_pred = self.model.predict(X_test)
+        mae = mean_absolute_error(y_test, y_pred)
+        r2 = r2_score(y_test, y_pred)
+
+        print(f"Model trained ✅ | MAE: {mae:.2f}, R²: {r2:.2f}")
+
+    def predict_future(self, future_dates):
+
+        Predict spending for given future dates.
+        future_dates: list of date strings ['2025-08-15', '2025-09-01']
+
+
+        future_df = pd.DataFrame({'date': pd.to_datetime(future_dates)})
+        future_df['year'] = future_df['date'].dt.year
+        future_df['month'] = future_df['date'].dt.month
+        future_df['day'] = future_df['date'].dt.day
+
+        predictions = self.model.predict(future_df[['year', 'month', 'day']])
+        return dict(zip(future_dates, predictions))
+
+
+
+if __name__ == "__main__":
+
+    data = {
+        'date': [
+            '2025-07-01', '2025-07-02', '2025-07-03',
+            '2025-07-10', '2025-07-15', '2025-07-20',
+            '2025-07-25', '2025-07-30'
+        ],
+        'amount': [120, 80, 50, 200, 150, 90, 300, 250]
+    }
+
+    df = pd.DataFrame(data)
+
+    predictor = SpendingPredictor()
+    predictor.train(df)
+
+
+
+    future_spending = predictor.predict_future(['2025-08-15', '2025-09-01'])
+    print("\nPredicted Spending:")
+    for date, amount in future_spending.items():
+    printf({date}: {amount:.2f}")
