@@ -1,0 +1,15 @@
+def fetch_hdfc_transactions_mock():
+    """
+    Simulates pulling transactions from HDFC Bank API (mock).
+    Returns a list of transaction dicts.
+    """
+    return [
+        {"amount": 1200, "description": "Electricity Bill"},
+        {"amount": 3500, "description": "Rent Payment"},
+        {"amount": 4500, "description": "EMI"}
+    ]
+
+if __name__ == "__main__":
+    txns = fetch_hdfc_transactions_mock()
+    for txn in txns:
+        print(f"Rs.{txn['amount']} - {txn['description']}")
