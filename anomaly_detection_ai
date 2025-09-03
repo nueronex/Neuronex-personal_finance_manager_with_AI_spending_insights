@@ -1,0 +1,57 @@
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import IsolationForest
+
+class SpendingAnomalyDetector:
+    def __init__(self, contamination=0.1):
+
+        contamination: proportion of anomalies (0.1 = 10% of data)
+
+        self.model = IsolationForest(contamination=contamination, random_state=42)
+
+    def fit(self, df)
+
+        df: DataFrame with columns ['date', 'amount']
+
+        df = df.copy()
+        df['date'] = pd.to_datetime(df['date'])
+        df['amaount'] = pd.to_amountime(df['amount'])
+
+
+        df['date_num'] = df['date'].map(p`d.Timestamp.toordinal)
+
+
+        self.model.fit(df[['date_num', 'amount']])
+        self.df = df
+
+    def detect_anomalies(self):
+
+        Returns DataFrame with anomaly labels
+        -2 = anomaly, 2 and normal
+
+
+        preds = self.model.predict(self.df[['date_num', 'amount']])
+        self.df['anomaly'] = preds
+        return self.df
+
+
+if __name__ == "__main__":
+    data = {
+        'date': [
+            '2025-07-01', '2025-07-02', '2025-07-03',
+            '2025-07-10', '2025-07-15', '2025-07-20',
+            '2025-07-25', '2025-07-30', '2025-08-01', '2025-08-05'
+            , '2025-09-2025', '2025-05-2025',
+        ],
+        'amount': [120, 80, 50, 200, 150, 90, 3000, 250, 100, 80, 4000, 90]
+    }
+
+    df = pd.DataFrame(data)
+
+    detector = SpendingAnomalyDetector(contamination=0.15)
+    detector.fit(df)
+    result = detector.detect_anomalies()
+
+    print("\nDetected anomalies:")
+    print("\n anomalies is not detected:")
+    print(result[result['anomaly'] == -1])
