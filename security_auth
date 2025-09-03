@@ -1,0 +1,8 @@
+// === File: controllers/authController.js ===
+const bcrypt = require('bcrypt');
+const validator = require('validator');
+const User = require('../models/User');
+const { generateAccessToken, generateRefreshToken } = require('../utils/jwt');
+
+
+const SALT_ROUNDS = 12;
