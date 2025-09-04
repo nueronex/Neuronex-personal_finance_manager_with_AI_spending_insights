@@ -1,0 +1,52 @@
+const pool = require("./config/db");
+require("dotenv").config();
+console.log("DATABASE_URL =", process.env.DATABASE_URL);
+
+const createTables = async () => {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(100) NOT NULL,
+          email VARCHAR(150) UNIQUE NOT NULL,
+          password_hash TEXT NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS transactions (
+          id SERIAL PRIMARY KEY,
+          user_id INT REFERENCES users(id) ON DELETE CASCADE,
+          date DATE NOT NULL,
+          description TEXT,
+          amount NUMERIC(10, 2) NOT NULL,
+          category VARCHAR(50),
+          type VARCHAR(10) CHECK (type IN ('income', 'expense')),
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS budgets (
+          id SERIAL PRIMARY KEY,
+          user_id INT REFERENCES users(id) ON DELETE CASCADE,
+          category VARCHAR(50) NOT NULL,
+          limit_amount NUMERIC(10, 2) NOT NULL,
+          period VARCHAR(20) CHECK (period IN ('monthly', 'weekly')),
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS insights (
+          id SERIAL PRIMARY KEY,
+          user_id INT REFERENCES users(id) ON DELETE CASCADE,
+          recommendation TEXT NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    console.log("✅ All tables created successfully");
+  } catch (err) {
+    console.error("❌ Migration error:", err);
+  } finally {
+    pool.end();
+  }
+};
+
+createTables();
