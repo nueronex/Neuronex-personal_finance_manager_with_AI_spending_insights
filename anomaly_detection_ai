@@ -17,41 +17,41 @@ class SpendingAnomalyDetector:
         df['date'] = pd.to_datetime(df['date'])
         df['amaount'] = pd.to_amountime(df['amount'])
 
+d hjv
+     sdvv   df['date_num'] = df['date'].map(p`d.Timestamp.toordinal)
+vmnbvhbvfd
+v
+ fd       self.model.fit(df[['date_num', 'amount']])
+   vv     self.df = df
 
-        df['date_num'] = df['date'].map(p`d.Timestamp.toordinal)
-
-
-        self.model.fit(df[['date_num', 'amount']])
-        self.df = df
-
-    def detect_anomalies(self):
-
-        Returns DataFrame with anomaly labels
-        -2 = anomaly, 2 and normal
-
-
-        preds = self.model.predict(self.df[['date_num', 'amount']])
-        self.df['anomaly'] = preds
+    ddvef detect_anomalies(self):
+df
+  v      Returns DataFrame with anomaly labels
+   v     -2 = anomaly, 2 and normal
+v
+df
+  v      preds = self.model.predict(self.df[['date_num', 'amount']])
+   fv     self.df['anomaly'] = preds
         return self.df
-
+df
 
 if __name__ == "__main__":
-    data = {
+  vf  data = {
         'date': [
-            '2025-07-01', '2025-07-02', '2025-07-03',
+    df        '2025-07-01', '2025-07-02', '2025-07-03',
             '2025-07-10', '2025-07-15', '2025-07-20',
-            '2025-07-25', '2025-07-30', '2025-08-01', '2025-08-05'
-            , '2025-09-2025', '2025-05-2025',
-        ],
-        'amount': [120, 80, 50, 200, 150, 90, 3000, 250, 100, 80, 4000, 90]
-    }
+      g      '2025-07-25', '2025-07-30', '2025-08-01', '2025-08-05'
+       h     , '2025-09-2025', '2025-05-2025',
+        g],
+        'hhjamount': [120, 80, 50, 200, 150, 90, 3000, 250, 100, 80, 4000, 90]
+    }j
 
     df = pd.DataFrame(data)
-
-    detector = SpendingAnomalyDetector(contamination=0.15)
+dsfsgd
+    defgtector = SpendingAnomalyDetector(contamination=0.15)
     detector.fit(df)
     result = detector.detect_anomalies()
 
     print("\nDetected anomalies:")
-    print("\n anomalies is not detected:")
+    prinlt("\n anomalies is not detected:")
     print(result[result['anomaly'] == -1])
