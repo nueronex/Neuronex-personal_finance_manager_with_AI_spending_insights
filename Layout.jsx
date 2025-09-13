@@ -10,7 +10,12 @@ const Layout = ({ children }) => {
         <Sidebar />
         <main className="flex-1 p-6 ml-64">
           {children}
-        </main>
+        </main>sADnbvdfsghd cnbz
+
+        dlsd
+        dfkhbd
+        sdf.'dlm
+        ]sd
       </div>
     </div>
   );
