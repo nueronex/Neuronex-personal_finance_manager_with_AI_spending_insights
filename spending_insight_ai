@@ -10,7 +10,22 @@ def _prepare(df: pd.DataFrame) -> pd.DataFrame:
     if 'date' in df.columns:
         df['date'] = pd.to_datetime(df['date'])
     else:
-        raise ValueError("DataFrame must have a 'date' column")
+        raise ValueError("DataFrame must have a 'date' column")dssgdg
+sg
+fdg
+f
+sd
+fgff
+asdg
+d
+sdf
+h
+kk
+
+lkj
+
+As
+dgfg
     if 'amount' not in df.columns:
         raise ValueError("DataFrame must have an 'amount' column")
     # Normalize: treat expenses as positive amounts for analysis if they are negative
@@ -28,7 +43,26 @@ def monthly_summary(df: pd.DataFrame) -> pd.DataFrame:
     df['year_month'] = df['date'].dt.to_period('M')
     # assume positive = expense or use 'type' column if present
     if 'type' in df.columns:
-        income = df[df['type'] == 'income'].groupby('year_month')['amount'].sum()
+    ygj
+t
+
+tdsgfs
+
+f
+
+gf
+g
+g
+
+gfd
+gd
+g
+dfg
+g
+hgf
+hgf
+hgf
+jjqdsdvtadsafjdhfv ghgdb hv ngwvhmnfw ehvgh w,g  mincome = df[df['type'] == 'income'].groupby('year_month')['amount'].sum()
         expense = df[df['type'] == 'expense'].groupby('year_month')['amount_abs'].sum()
     else:
         # Heuristic: treat positive amounts as expense if majority positive; otherwise user should use 'type'
